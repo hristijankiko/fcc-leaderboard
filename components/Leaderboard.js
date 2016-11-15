@@ -21,15 +21,13 @@ class Leaderboard extends React.Component {
     sortByRecent(){
         let data = this.state.data;
         data.sort((a, b) => b.recent - a.recent);
-        this.state.data = data;
-        this.forceUpdate();
+        this.setState({data});
     }
 
     sortByAllTime(){
         let data = this.state.data;
         data.sort((a, b) => b.alltime - a.alltime);
-        this.state.data = data;
-        this.forceUpdate()
+        this.setState({data});
     }
 
     render() {

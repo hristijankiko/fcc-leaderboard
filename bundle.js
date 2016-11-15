@@ -117,8 +117,7 @@
 	            data.sort(function (a, b) {
 	                return b.recent - a.recent;
 	            });
-	            this.state.data = data;
-	            this.forceUpdate();
+	            this.setState({ data: data });
 	        }
 	    }, {
 	        key: 'sortByAllTime',
@@ -127,8 +126,7 @@
 	            data.sort(function (a, b) {
 	                return b.alltime - a.alltime;
 	            });
-	            this.state.data = data;
-	            this.forceUpdate();
+	            this.setState({ data: data });
 	        }
 	    }, {
 	        key: 'render',
