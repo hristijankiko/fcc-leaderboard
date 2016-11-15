@@ -78,6 +78,10 @@
 
 	var _TableRow2 = _interopRequireDefault(_TableRow);
 
+	var _TableHeaderRow = __webpack_require__(179);
+
+	var _TableHeaderRow2 = _interopRequireDefault(_TableHeaderRow);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -98,18 +102,33 @@
 	            data: [],
 	            allTime: 'empty'
 	        };
+	        _jquery2.default.ajax({
+	            url: "https://fcctop100.herokuapp.com/api/fccusers/top/recent"
+	        }).done(function (data) {
+	            this.setState({ data: data });
+	        }.bind(_this));
 	        return _this;
 	    }
 
 	    _createClass(Leaderboard, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            _jquery2.default.ajax({
-	                url: "https://fcctop100.herokuapp.com/api/fccusers/top/recent"
-	            }).done(function (data) {
-	                this.setState({ data: data });
-	                console.log(this.state.data);
-	            }.bind(this));
+	        key: 'sortByRecent',
+	        value: function sortByRecent() {
+	            var data = this.state.data;
+	            data.sort(function (a, b) {
+	                return b.recent - a.recent;
+	            });
+	            this.state.data = data;
+	            this.forceUpdate();
+	        }
+	    }, {
+	        key: 'sortByAllTime',
+	        value: function sortByAllTime() {
+	            var data = this.state.data;
+	            data.sort(function (a, b) {
+	                return b.alltime - a.alltime;
+	            });
+	            this.state.data = data;
+	            this.forceUpdate();
 	        }
 	    }, {
 	        key: 'render',
@@ -122,7 +141,10 @@
 	                    null,
 	                    'FreeCodeCamp Leaderboard'
 	                ),
-	                _react2.default.createElement(_TableRow2.default, { recent: this.data.state.recent, allTime: 255225, username: "username" })
+	                _react2.default.createElement(_TableHeaderRow2.default, { sortByAllTime: this.sortByAllTime.bind(this), sortByRecent: this.sortByRecent.bind(this) }),
+	                this.state.data.map(function (camper, i) {
+	                    return _react2.default.createElement(_TableRow2.default, { key: i, index: i, recent: camper.recent, allTime: camper.alltime, username: camper.username, image: camper.img });
+	                })
 	            );
 	        }
 	    }]);
@@ -31767,11 +31789,12 @@
 	        _react2.default.createElement(
 	          'p',
 	          { className: 'rank' },
-	          '#'
+	          this.props.index + 1
 	        ),
 	        _react2.default.createElement(
 	          'p',
 	          { className: 'camperName' },
+	          _react2.default.createElement('img', { src: this.props.image }),
 	          this.props.username
 	        ),
 	        _react2.default.createElement(
@@ -31828,7 +31851,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  font-family: sans-serif;\n  margin: 0; }\n\n.container {\n  background-color: brown; }\n\nh1 {\n  text-align: center;\n  margin: 0; }\n\n.tableRow p {\n  display: inline-block;\n  text-align: center; }\n\n.rank {\n  width: 5%; }\n\n.camperName {\n  width: 40%; }\n\n.pointsLast30 {\n  width: 25%; }\n\n.pointsAllTime {\n  width: 30%; }\n", ""]);
+	exports.push([module.id, "body {\n  font-family: sans-serif;\n  margin: 0;\n  background-color: #3A4750;\n  color: #EA9215; }\n\n.container {\n  background-color: #303841;\n  max-width: 1000px;\n  margin: 0 auto;\n  border-radius: 10px; }\n\nh1 {\n  text-align: center;\n  margin: 0; }\n\nimg {\n  height: 35px;\n  width: 35px;\n  border: 2px solid #EA9215;\n  display: inline-block;\n  margin-right: 15px;\n  vertical-align: middle; }\n\n.tableRow p {\n  display: inline-block;\n  text-align: center; }\n\n.rank {\n  width: 5%; }\n\np.camperName {\n  text-align: left;\n  width: 40%; }\n\n.pointsLast30 {\n  width: 25%; }\n\n.pointsAllTime {\n  width: 30%; }\n\n.tableRowHeader p {\n  font-weight: bold;\n  display: inline-block;\n  text-align: center; }\n\n.rankHeader {\n  width: 5%; }\n\np.camperNameHeader {\n  width: 40%;\n  text-align: left; }\n\n.pointsLast30Header {\n  width: 25%;\n  cursor: pointer; }\n\n.pointsAllTimeHeader {\n  width: 30%;\n  cursor: pointer; }\n", ""]);
 
 	// exports
 
@@ -32140,6 +32163,74 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(35);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TableHeaderRow = function (_React$Component) {
+	  _inherits(TableHeaderRow, _React$Component);
+
+	  function TableHeaderRow() {
+	    _classCallCheck(this, TableHeaderRow);
+
+	    return _possibleConstructorReturn(this, (TableHeaderRow.__proto__ || Object.getPrototypeOf(TableHeaderRow)).apply(this, arguments));
+	  }
+
+	  _createClass(TableHeaderRow, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'tableRowHeader' },
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'rankHeader' },
+	          '#'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'camperNameHeader' },
+	          'Camper Name'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'pointsLast30Header', onClick: this.props.sortByRecent },
+	          'Points in the last 30 days'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'pointsAllTimeHeader', onClick: this.props.sortByAllTime },
+	          'All time points'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TableHeaderRow;
+	}(_react2.default.Component);
+
+	module.exports = TableHeaderRow;
 
 /***/ }
 /******/ ]);
